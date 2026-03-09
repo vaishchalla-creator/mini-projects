@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://oagu77oqnteo"]
+
+[ext_resource type="Texture2D" uid="uid://dg5wsenijjy1y" path="res://assets/shop.png" id="1_iuafe"]
+[ext_resource type="Script" uid="uid://xvng0oegybq" path="res://scene/shop.gd" id="1_uyq3k"]
+[ext_resource type="Texture2D" uid="uid://ck0rdhsvrtboj" path="res://assets/Back.png" id="2_phbgv"]
+[ext_resource type="Texture2D" uid="uid://dg3ixd4veb7uk" path="res://assets/BackHover.png" id="3_uyq3k"]
+[ext_resource type="PackedScene" uid="uid://elc2q4nsefen" path="res://scripts/character.tscn" id="5_0wha2"]
+[ext_resource type="Texture2D" uid="uid://bm46w3a0um62l" path="res://assets/hair.png" id="6_brg4d"]
+[ext_resource type="Texture2D" uid="uid://dilbqcmlwks61" path="res://assets/buy.png" id="7_prb2b"]
+[ext_resource type="Texture2D" uid="uid://fext7evqq7fk" path="res://assets/bought.png" id="8_tartn"]
+[ext_resource type="Texture2D" uid="uid://bq7jdlrb3bio0" path="res://assets/New Drawing Copy (3).png" id="9_tartn"]
+
+[node name="Shop" type="Node2D" unique_id=776847120]
+script = ExtResource("1_uyq3k")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1833342322]
+
+[node name="Shop" type="Sprite2D" parent="." unique_id=1396230089]
+position = Vector2(-314.5, -3.0362978)
+scale = Vector2(0.76888216, 0.7296073)
+texture = ExtResource("1_iuafe")
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=1877453659]
+offset_left = 85.0
+offset_top = 138.0
+offset_right = 576.0
+offset_bottom = 322.0
+texture_normal = ExtResource("2_phbgv")
+texture_pressed = ExtResource("2_phbgv")
+texture_hover = ExtResource("3_uyq3k")
+
+[node name="Character" parent="." unique_id=1780865223 instance=ExtResource("5_0wha2")]
+position = Vector2(-62, -278)
+
+[node name="hair" type="TextureButton" parent="." unique_id=656115545]
+offset_left = -434.0
+offset_top = -106.0
+offset_right = -294.0
+offset_bottom = 23.0
+toggle_mode = true
+texture_normal = ExtResource("7_prb2b")
+texture_pressed = ExtResource("8_tartn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=786213812]
+position = Vector2(-521, -49.99997)
+scale = Vector2(7.416668, 7.416668)
+texture = ExtResource("6_brg4d")
+
+[node name="NewDrawingCopy(3)" type="Sprite2D" parent="." unique_id=699219636]
+position = Vector2(-308, 185)
+texture = ExtResource("9_tartn")
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="hair" to="." method="_on_hair_pressed"]
