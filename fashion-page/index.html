@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Design Studio</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff8fb;
+      color: #333;
+    }
+
+    header {
+      background-color: #f7c6d9;
+      padding: 20px;
+      text-align: center;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .gallery img {
+      width: 200px;
+      height: 260px;
+      object-fit: cover;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Fashion Design Studio</h1>
+    <p>Explore dresses, shoes, and accessories for your next style idea.</p>
+    <a href="https://www.vogue.com" target="_blank">Visit a Fashion Website</a>
+  </header>
+
+  <section>
+    <h2>Featured Collection</h2>
+    <div class="gallery">
+      <img src="dress.jpg" alt="Elegant dress">
+      <img src="shoes.jpg" alt="Stylish shoes">
+      <img src="bag.jpg" alt="Fashion bag">
+    </div>
+  </section>
+
+  <section>
+    <h2>Style Request Form</h2>
+    <form>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" placeholder="Enter your name">
+
+      <label for="style">Favorite Style</label>
+      <select id="style">
+        <option>Casual</option>
+        <option>Party</option>
+        <option>Traditional</option>
+        <option>Formal</option>
+      </select>
+
+      <label for="idea">Describe your design idea</label>
+      <textarea id="idea" rows="4" placeholder="Type your fashion idea here"></textarea>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter your email">
+
+      <button type="submit">Send Request</button>
+    </form>
+  </section>
+</body>
+</html>
