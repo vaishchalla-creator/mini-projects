@@ -1,0 +1,20 @@
+
+=== Improvement 1: Free Time Estimate ===
+- Monday: 3 hour(s) 0 minute(s) free
+- Tuesday: 3 hour(s) 30 minute(s) free
+- Wednesday: 3 hour(s) 30 minute(s) free
+- Thursday: 3 hour(s) 0 minute(s) free
+- Friday: 2 hour(s) 30 minute(s) free
+- Saturday: 3 hour(s) 0 minute(s) free
+- Sunday: 2 hour(s) 0 minute(s) free
+
+=== Improvement 2: Priority Order ===
+Recommended order for Friday:
+- Priority 3: English Class (18:00 - 20:00)
+- Priority 3: Homework Block (20:15 - 21:15)
+- Priority 2: Student Ambassador Work (16:30 - 17:00)
+
+=== Improvement 4: Conflict Detection ===
+No conflicts found in the current dataset.
+
+Run interactive_day_lookup(activities) if you want keyboard input during the demo.
