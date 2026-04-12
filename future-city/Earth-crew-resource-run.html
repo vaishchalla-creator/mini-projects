@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Earth Crew: Resource Run</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #1d4ed8;
+      --accent-soft: #dbeafe;
+      --good: #ecfdf5;
+      --good-border: #86efac;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef4ff 100%);
+      color: var(--text);
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .top-grid {
+      grid-template-columns: 1.3fr 0.9fr;
+      margin-bottom: 20px;
+    }
+
+    .main-grid {
+      grid-template-columns: 1fr 1fr 0.9fr;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: #eef2ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .subtext {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-top: 6px;
+    }
+
+    .intro-box,
+    .soft-box,
+    .tip-box {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 14px;
+      line-height: 1.65;
+      color: #374151;
+    }
+
+    .phase-grid,
+    .needs-grid,
+    .pool-grid,
+    .button-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    .phase-grid {
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 16px;
+    }
+
+    .phase-box {
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .phase-box.active {
+      background: #ffffff;
+      border-color: #c7d2fe;
+      box-shadow: 0 8px 18px rgba(59, 130, 246, 0.08);
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #1e3a8a;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .score-value {
+      font-size: 42px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .progress-wrap {
+      margin-top: 12px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+      width: 0;
+      transition: width 0.3s ease;
+    }
+
+    .needs-grid,
+    .pool-grid {
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 14px;
+    }
+
+    .resource-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .resource-box.good {
+      background: var(--good);
+      border-color: var(--good-border);
+    }
+
+    .resource-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .resource-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .resource-name {
+      font-weight: bold;
+    }
+
+    .small {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .team-box,
+    .result-box,
+    .history-box {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 15px;
+      margin-top: 14px;
+    }
+
+    .trade-wrap {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .button-row {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.2s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-toggle.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .action-button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px;
+      font-size: 16px;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .history-item {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background: white;
+    }
+
+    .quote {
+      margin-top: 14px;
+      font-style: italic;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .top-grid,
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .phase-grid,
+      .needs-grid,
+      .pool-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wrapper {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="grid top-grid">
+    <section class="card">
+      <div class="title-row">
+        <div class="icon-box">🌍</div>
+        <div>
+          <h1>The Earth Crew: Resource Run</h1>
+          <p class="subtext">A kid-friendly browser game about cooperation, sustainability, and building a better future together.</p>
+        </div>
+      </div>
+
+      <div class="intro-box">
+        <strong>Mission:</strong> Build a thriving future city by balancing shared needs like energy, water, food, and health. Try three different systems and compare what works best.
+      </div>
+
+      <div class="phase-grid" id="phaseGrid"></div>
+
+      <p class="quote">"The Earth is what we all have in common." — Wendell Berry</p>
+    </section>
+
+    <aside class="card">
+      <h2>Scoreboard</h2>
+      <p class="subtext">Compare how each system affects the mission outcome.</p>
+      <div class="score-value" id="totalScore">0</div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Progress</span>
+          <span id="scoreProgressText">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="scoreProgress"></div></div>
+      </div>
+
+      <div class="soft-box">
+        <div class="small">Current mission</div>
+        <h3 id="missionName" style="margin-top:6px;"></h3>
+        <p class="subtext" id="missionFact"></p>
+      </div>
+
+      <div class="button-row">
+        <button class="btn-secondary" id="resetBtn">Reset Game</button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="grid main-grid">
+    <section class="card">
+      <h2>Mission Needs</h2>
+      <p class="subtext">These are the resources required to complete the city mission.</p>
+      <div class="needs-grid" id="needsGrid"></div>
+    </section>
+
+    <section class="card">
+      <h2 id="phaseTitle"></h2>
+      <p class="subtext" id="phaseRule"></p>
+
+      <div class="team-box">
+        <div class="small">Current team</div>
+        <h3 id="teamName" style="margin-top:6px;"></h3>
+      </div>
+
+      <div class="pool-grid" id="poolGrid"></div>
+
+      <div class="trade-wrap" id="tradeWrap" style="display:none;">
+        <h3>Trade Center</h3>
+        <p class="subtext">Use up to 2 trades. Each trade helps, but costs time.</p>
+        <div class="button-row" id="tradeButtons"></div>
+        <div class="button-row">
+          <button class="btn-primary" id="addTradeBtn">Add Trade</button>
+        </div>
+        <p class="subtext" id="tradeCountText" style="margin-top:10px;"></p>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Mission Completion</span>
+          <span id="completionText">0%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="completionBar"></div></div>
+      </div>
+
+      <div class="result-box">
+        <div class="small">Round result</div>
+        <h3 id="resultText" style="margin-top:6px;"></h3>
+        <p class="subtext" id="roundScoreText"></p>
+      </div>
+
+      <button class="btn-primary action-button" id="advanceBtn">Finish This Phase</button>
+    </section>
+
+    <aside class="card">
+      <h2>Think Like a Global Problem Solver</h2>
+      <p class="subtext">Reflection prompts for tutoring or class discussion.</p>
+
+      <div class="soft-box">
+        <strong>Question of the round</strong>
+        <p class="subtext" style="margin-top:8px;">Which system helped the city most: working alone, trading with limits, or sharing resources as one crew?</p>
+      </div>
+
+      <div class="history-box">
+        <strong>Recent history</strong>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <div class="tip-box">
+        Teacher tip: After kids play all 3 phases, ask them to design their own future city and explain how it uses resources fairly and wisely.
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  const RESOURCE_META = {
+    Energy: { icon: '⚡', blurb: 'Powers homes, lights, and machines.' },
+    Water: { icon: '💧', blurb: 'Needed for people, farms, and health.' },
+    Food: { icon: '🌾', blurb: 'Keeps the city strong and growing.' },
+    Health: { icon: '❤️', blurb: 'Supports clinics, medicine, and care.' }
+  };
+
+  const PHASES = [
+    {
+      id: 1,
+      title: 'Phase 1: Solo Build',
+      subtitle: 'Each group works alone with limited resources.',
+      rule: 'You can only use your own team\'s resource stash.',
+      bonus: 0,
+      collaboration: 25
+    },
+    {
+      id: 2,
+      title: 'Phase 2: Trade & Negotiate',
+      subtitle: 'Teams can trade, but each trade costs time.',
+      rule: 'You may use your own stash and make up to 2 trades.',
+      bonus: -10,
+      collaboration: 60
+    },
+    {
+      id: 3,
+      title: 'Phase 3: One Earth Crew',
+      subtitle: 'Everyone shares all resources to build together.',
+      rule: 'All resource pools are shared by the whole crew.',
+      bonus: 20,
+      collaboration: 100
+    }
+  ];
+
+  const MISSIONS = [
+    {
+      name: 'Future School',
+      needs: { Energy: 2, Water: 1, Food: 1, Health: 1 },
+      fact: 'A great school depends on many systems working together.'
+    },
+    {
+      name: 'Healthy Neighborhood',
+      needs: { Energy: 1, Water: 2, Food: 2, Health: 2 },
+      fact: 'Healthy communities need more than medicine alone.'
+    },
+    {
+      name: 'Innovation Hub',
+      needs: { Energy: 3, Water: 1, Food: 1, Health: 1 },
+      fact: 'Technology grows faster when people have stable basics too.'
+    },
+    {
+      name: 'Climate-Ready City',
+      needs: { Energy: 2, Water: 2, Food: 2, Health: 1 },
+      fact: 'Sustainability means balancing many shared needs at once.'
+    }
+  ];
+
+  const TEAMS = [
+    { name: 'Sun Team', stash: { Energy: 4, Water: 0, Food: 0, Health: 0 } },
+    { name: 'River Team', stash: { Energy: 0, Water: 4, Food: 0, Health: 0 } },
+    { name: 'Harvest Team', stash: { Energy: 0, Water: 0, Food: 4, Health: 0 } },
+    { name: 'Care Team', stash: { Energy: 0, Water: 0, Food: 0, Health: 4 } }
+  ];
+
+  const state = {
+    missionIndex: 0,
+    phaseIndex: 0,
+    selectedTeam: 0,
+    tradeCount: 0,
+    tradeResource: 'Water',
+    score: 0,
+    history: []
+  };
+
+  function getMission() { return MISSIONS[state.missionIndex]; }
+  function getPhase() { return PHASES[state.phaseIndex]; }
+  function getTeam() { return TEAMS[state.selectedTeam]; }
+
+  function getSharedPool() {
+    const total = { Energy: 0, Water: 0, Food: 0, Health: 0 };
+    TEAMS.forEach(team => {
+      Object.keys(team.stash).forEach(key => {
+        total[key] += team.stash[key];
+      });
+    });
+    return total;
+  }
+
+  function getActivePool() {
+    const phase = getPhase();
+    const team = getTeam();
+    if (phase.id === 1) return { ...team.stash };
+    if (phase.id === 3) return getSharedPool();
+
+    const base = { ...team.stash };
+    if (state.tradeCount > 0) {
+      base[state.tradeResource] = (base[state.tradeResource] || 0) + state.tradeCount;
+    }
+    return base;
+  }
+
+  function missionCompletion(needs, pool) {
+    const keys = Object.keys(needs);
+    const met = keys.filter(key => (pool[key] || 0) >= needs[key]).length;
+    return Math.round((met / keys.length) * 100);
+  }
+
+  function buildResultText(percent, phaseTitle) {
+    if (percent === 100) return phaseTitle + ': Mission complete!';
+    if (percent >= 75) return phaseTitle + ': Almost there.';
+    if (percent >= 50) return phaseTitle + ': Good start, but key needs are missing.';
+    return phaseTitle + ': The city cannot thrive yet.';
+  }
+
+  function getRoundScore() {
+    const phase = getPhase();
+    const completion = missionCompletion(getMission().needs, getActivePool());
+    const teamworkScore = Math.max(0, completion + phase.bonus);
+    return Math.max(0, Math.min(100, Math.round((teamworkScore + phase.collaboration) / 2)));
+  }
+
+  function el(id) { return document.getElementById(id); }
+
+  function renderPhases() {
+    const container = el('phaseGrid');
+    container.innerHTML = '';
+    PHASES.forEach((phase, index) => {
+      const div = document.createElement('div');
+      div.className = 'phase-box' + (index === state.phaseIndex ? ' active' : '');
+      div.innerHTML = `
+          <strong>${phase.title}</strong>
+          <p class="subtext">${phase.subtitle}</p>
+          <span class="badge">${phase.collaboration}% teamwork</span>
+        `;
+      container.appendChild(div);
+    });
+  }
+
+  function renderNeeds() {
+    const container = el('needsGrid');
+    const mission = getMission();
+    container.innerHTML = '';
+
+    Object.keys(mission.needs).forEach(name => {
+      const meta = RESOURCE_META[name];
+      const div = document.createElement('div');
+      div.className = 'resource-box';
+      div.innerHTML = `
+          <div class="resource-head">
+            <div class="resource-icon">${meta.icon}</div>
+            <div>
+              <div class="resource-name">${name}</div>
+              <div class="small">Need: ${mission.needs[name]}</div>
+            </div>
+          </div>
+          <div class="small">${meta.blurb}</div>
+        `;
+      container.appendChild(div);
+    });
+  }
+
+  function renderPool() {
+    const container = el('poolGrid');
+    const mission = getMission();
+    const pool = getActivePool();
+    container.innerHTML = '';
+
+    Object.keys(pool).forEach(name => {
+      const meta = RESOURCE_META[name];
+      const enough = pool[name] >= mission.needs[name];
+      const div = document.createElement('div');
+      div.className = 'resource-box' + (enough ? ' good' : '');
+      div.innerHTML = `
+          <div class="resource-head">
+            <div class="resource-icon">${meta.icon}</div>
+            <div>
+              <div class="resource-name">${name}</div>
+              <div class="small">Available: ${pool[name]}</div>
+            </div>
+          </div>
+        `;
+      container.appendChild(div);
+    });
+  }
+
+  function renderTradeArea() {
+    const phase = getPhase();
+    const wrap = el('tradeWrap');
+    const buttons = el('tradeButtons');
+    wrap.style.display = phase.id === 2 ? 'block' : 'none';
+    buttons.innerHTML = '';
+
+    if (phase.id !== 2) return;
+
+    Object.keys(RESOURCE_META).forEach(resource => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-secondary btn-toggle' + (state.tradeResource === resource ? ' active' : '');
+      btn.textContent = resource;
+      btn.onclick = () => {
+        state.tradeResource = resource;
+        render();
+      };
+      buttons.appendChild(btn);
+    });
+
+    el('tradeCountText').textContent = 'Trades used: ' + state.tradeCount + '/2';
+    el('addTradeBtn').disabled = state.tradeCount >= 2;
+  }
+
+  function renderHistory() {
+    const container = el('historyList');
+    container.innerHTML = '';
+
+    if (state.history.length === 0) {
+      const p = document.createElement('p');
+      p.className = 'subtext';
+      p.textContent = 'No rounds completed yet.';
+      container.appendChild(p);
+      return;
+    }
+
+    state.history.slice().reverse().forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.innerHTML = `
+          <strong>${item.phase}</strong>
+          <div class="small" style="margin-top:4px;">${item.mission}</div>
+          <div class="small" style="margin-top:8px; color:#374151;">${item.result}</div>
+          <div class="small" style="margin-top:6px; font-weight:bold; color:#111827;">+${item.roundScore} points</div>
+        `;
+      container.appendChild(div);
+    });
+  }
+
+  function render() {
+    const mission = getMission();
+    const phase = getPhase();
+    const team = getTeam();
+    const completion = missionCompletion(mission.needs, getActivePool());
+    const roundScore = getRoundScore();
+
+    renderPhases();
+    renderNeeds();
+    renderPool();
+    renderTradeArea();
+    renderHistory();
+
+    el('totalScore').textContent = state.score;
+    el('scoreProgress').style.width = (state.score % 100) + '%';
+    el('scoreProgressText').textContent = (state.score % 100) + '%';
+
+    el('missionName').textContent = mission.name;
+    el('missionFact').textContent = mission.fact;
+
+    el('phaseTitle').textContent = phase.title;
+    el('phaseRule').textContent = phase.rule;
+    el('teamName').textContent = team.name;
+
+    el('completionBar').style.width = completion + '%';
+    el('completionText').textContent = completion + '%';
+    el('resultText').textContent = buildResultText(completion, phase.title);
+    el('roundScoreText').textContent = 'Round score: ' + roundScore;
+    el('advanceBtn').textContent = state.phaseIndex < PHASES.length - 1 ? 'Finish This Phase' : 'Finish Mission';
+  }
+
+  function addTrade() {
+    if (getPhase().id !== 2) return;
+    if (state.tradeCount >= 2) return;
+    state.tradeCount += 1;
+    render();
+  }
+
+  function advanceRound() {
+    const phase = getPhase();
+    const mission = getMission();
+    const completion = missionCompletion(mission.needs, getActivePool());
+    const roundScore = getRoundScore();
+
+    state.score += roundScore;
+    state.history.push({
+      phase: phase.title,
+      mission: mission.name,
+      result: buildResultText(completion, phase.title),
+      roundScore
+    });
+
+    if (state.phaseIndex < PHASES.length - 1) {
+      state.phaseIndex += 1;
+      state.tradeCount = 0;
+    } else {
+      state.phaseIndex = 0;
+      state.tradeCount = 0;
+      state.missionIndex = (state.missionIndex + 1) % MISSIONS.length;
+      state.selectedTeam = (state.selectedTeam + 1) % TEAMS.length;
+    }
+
+    render();
+  }
+
+  function resetGame() {
+    state.missionIndex = 0;
+    state.phaseIndex = 0;
+    state.selectedTeam = 0;
+    state.tradeCount = 0;
+    state.tradeResource = 'Water';
+    state.score = 0;
+    state.history = [];
+    render();
+  }
+
+  el('addTradeBtn').addEventListener('click', addTrade);
+  el('advanceBtn').addEventListener('click', advanceRound);
+  el('resetBtn').addEventListener('click', resetGame);
+
+  render();
+</script>
+</body>
+</html>
